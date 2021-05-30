@@ -14,28 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
           recipients: document.querySelector('#compose-recipients').value,
           subject: document.querySelector('#compose-subject').value,
           body: document.querySelector('#compose-body').value
+
           
       })
       
     })
     .then(response => response.json())
     .then(result => {
-      if (result["error"]) {
-        document.querySelector('#message').innerHTML = result["error"];
-        document.querySelector('.alert').style.display = 'block';
-        document.body.scrollTop = document.documentElement.scrollTop = 0;
-      }
-      else {
-        document.querySelector('.alert').style.display = 'none';
-        load_mailbox('sent')
-    }
+      // Print result
+      console.log(result);
+      //loads sent mailbox 
+      load_mailbox('sent');
+
   });
-  return false;
-};
   
   // By default, load the inbox
   load_mailbox('inbox');
-});
 
 function compose_email() {
 
@@ -59,5 +53,34 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+  fetch('/emails/inbox')
+.then(response => response.json())
+.then(emails => {
+    // Print emails
+    console.log(emails);
+    //let emails_view = document.querySelector("#emails-view");
+    if (emails.length==0){
+      document.querySelector("#message")='No emails';
+    }
+    else{
+      emails.forEach(email => {
+        const mail=document.createElement('div');
+        const from=document.createElement('p');
+        const subj=document.createElement('p');
+        const time=document.createElement('p');
+
+        if (!email.read)
+          mail.style.backgroundColor = "lightgrey"
+
+        from.innerHTML=email.sender;
+        subj.innerHTML=email.subject;
+        time.innerHTML=email.timestamp;
+        email_view.appendChild(mail);
+        mail.appendChild(from);
+        mail.appendChild(subj);
+        mail.appendChild(time);
+      });
+    }
+
 }
 // function send_email() 
