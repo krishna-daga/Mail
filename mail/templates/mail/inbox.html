@@ -1,17 +1,19 @@
-{% extends "mail/layout.html" %}
+{% extends "./layout.html" %}
 {% load static %}
 
 {% block body %}
-    <h2>{{ request.user.email }}</h2>
-    <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
-    <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
-    <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
-    <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
-    <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+    <h2 style="float: right;">{{ request.user.email }}</h2>
+        <button class="btn btn-sm btn-outline-primary" id="inbox">Inbox</button>
+        <button class="btn btn-sm btn-outline-primary" id="compose">Compose</button>
+        <button class="btn btn-sm btn-outline-primary" id="sent">Sent</button>
+        <button class="btn btn-sm btn-outline-primary" id="archived">Archived</button>
+        <a class="btn btn-sm btn-outline-primary" href="{% url 'logout' %}">Log Out</a>
+     
+    
     <hr>
 
     <div id="emails-view">
-        <p id="message"></p>
+      <h3></h3>
     </div>
 
     <div id="compose-view">
@@ -29,6 +31,10 @@
             <textarea class="form-control" id="compose-body" placeholder="Body"></textarea>
             <input type="submit" class="btn btn-primary"/>
         </form>
+    </div>
+
+    <div id="email-view">
+      <button id="email-unread-btn" class="btn-secondary">Mark as Unread</button>
     </div>
 {% endblock %}
 
